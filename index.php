@@ -1,3 +1,9 @@
+<?php
+
+session_start();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,10 +20,19 @@
 
   <form action="login.php" method="post">
     <h2>Welcome Back</h2>
-    <input type="email" name="email" placeholder="Email"><br>
+    <input type="text" name="email" placeholder="Email"><br>
     <input type="password" name="password" placeholder="Password"><br>
     <input type="submit" value="Log In">
   </form>
+
+  <?php
+
+
+  if (isset($_SESSION['login_error'])) {
+    echo $_SESSION['login_error'];
+  }
+
+  ?>
 
 </body>
 
