@@ -2,6 +2,11 @@
 
 session_start();
 
+if ((isset($_SESSION["is_user_loggedin"])) && ($_SESSION["is_user_loggedin"] = true)) {
+  header('Location: game.php');
+  exit();
+}
+
 ?>
 
 <!DOCTYPE html>
