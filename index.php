@@ -22,6 +22,8 @@ if ((isset($_SESSION["is_user_loggedin"])) && ($_SESSION["is_user_loggedin"] = t
 
 <body>
   <h1 class="home__heading">Only the dead have seen the end of war -Plato </h1>
+  <br><br>
+  <a style="text-align:center; width: 100%;display:block;" href="register.php">Register</a>
 
   <form action="login.php" method="post">
     <h2>Welcome Back</h2>
