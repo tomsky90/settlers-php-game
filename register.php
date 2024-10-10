@@ -37,7 +37,7 @@ if (isset($_POST['email'])) {
 </head>
 
 <body>
-  <form>
+  <form method="post">
     Nickname: <br><input type="text" name="nick"><br>
     <?php
     if (isset($_SESSION['e_nick'])) {
