@@ -10,6 +10,21 @@ if (isset($_POST['email'])) {
     $_SESSION['e_nick'] = "Nick must be betwen 3 - 20 signs";
   }
 
+
+  if (ctype_alnum($nick) == false) {
+    $validation_ok = false;
+    $_SESSION['e_nick'] = "Please use only letters and numbers for nick name";
+  }
+
+  //check email
+  $email = $_POST['email'];
+  $email_sanitized = filter_var($email, FILTER_SANITIZE_EMAIL);
+
+  if ((filter_var($email_sanitized, FILTER_VALIDATE_EMAIL) == false) || $email_sanitized != $email) {
+    $validation_ok = false;
+    $_SESSION['e_email'] = 'Incorect email';
+  }
+
   if ($validation_ok == true) {
     //add user
     echo 'udana walidacja';
@@ -44,9 +59,16 @@ if (isset($_POST['email'])) {
       echo '<div class="error">' . $_SESSION['e_nick'] . '</div>';
       unset($_SESSION['e_nick']);
     }
-
     ?>
     E-mail: <br><input type="text" name="email"><br>
+
+    <?php
+    if (isset($_SESSION['e_email'])) {
+      echo '<div class="error">' . $_SESSION['e_email'] . '</div>';
+      unset($_SESSION['e_email']);
+    }
+    ?>
+
     Password: <br><input type="password" name="password1"><br>
     Repeat Password: <br><input type="password" name="password2"><br>
     <label>
