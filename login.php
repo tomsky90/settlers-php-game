@@ -21,7 +21,7 @@ try {
   $password = $_POST['password'];
 
   $login = htmlentities($login, ENT_QUOTES, "UTF-8");
-  $password = htmlentities($password, ENT_QUOTES, "UTF-8");
+
 
 
 
@@ -30,27 +30,37 @@ try {
   if (
     $result = @$connection->query(
       sprintf(
-        "SELECT * FROM uzytkownicy WHERE user='%s' AND pass='%s'",
+        "SELECT * FROM uzytkownicy WHERE user='%s'",
         mysqli_real_escape_string($connection, $login),
-        mysqli_real_escape_string($connection, $password),
+
       )
     )
   ) {
     $users_Number = $result->num_rows;
     if ($users_Number > 0) {
-      $_SESSION["is_user_loggedin"] = true;
-      $row = $result->fetch_assoc();
-      $_SESSION["user_id"] = $row["id"];
-      $_SESSION['user'] = $row['user'];
-      $_SESSION['wood'] = $row['drewno'];
-      $_SESSION['stone'] = $row['kamien'];
-      $_SESSION['grain'] = $row['zboze'];
-      $_SESSION['email'] = $row['email'];
-      $_SESSION['premium_left'] = $row['dnipremium'];
 
-      unset($_SESSION['login_error']);
-      $result->free_result();
-      header('Location: game.php');
+      $row = $result->fetch_assoc();
+      if (password_verify($password, $row['pass'])) {
+
+
+
+        $_SESSION["is_user_loggedin"] = true;
+
+        $_SESSION["user_id"] = $row["id"];
+        $_SESSION['user'] = $row['user'];
+        $_SESSION['wood'] = $row['drewno'];
+        $_SESSION['stone'] = $row['kamien'];
+        $_SESSION['grain'] = $row['zboze'];
+        $_SESSION['email'] = $row['email'];
+        $_SESSION['premium_left'] = $row['dnipremium'];
+
+        unset($_SESSION['login_error']);
+        $result->free_result();
+        header('Location: game.php');
+      } else {
+        $_SESSION['login_error'] = '<span style="color:red"> Wrong Email or Password!</span>';
+        header('Location: index.php');
+      }
     } else {
       $_SESSION['login_error'] = '<span style="color:red"> Wrong Email or Password!</span>';
       header('Location: index.php');
