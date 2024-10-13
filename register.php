@@ -44,7 +44,10 @@ if (isset($_POST['email'])) {
 
 
   //checkbox
-
+  if (!isset($_POST['terms'])) {
+    $validation_ok = false;
+    $_SESSION['e_terms'] = "Please read and tick T&C's";
+  }
   echo $_POST['terms'], exit();
 
   if ($validation_ok == true) {
@@ -102,6 +105,12 @@ if (isset($_POST['email'])) {
     <label>
       <input type="checkbox" name="terms">Accept terms and conditions<br>
     </label>
+    <?php
+    if (isset($_SESSION['e_terms'])) {
+      echo '<div class="error">' . $_SESSION['e_terms'] . '</div>';
+      unset($_SESSION['e_terms']);
+    }
+    ?>
 
     <input type="submit" value="Submit">
   </form>
